@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h2 Item price
+  p Get an items price history based on sells from the Steam market.
+  h3 Endpoint
+  pre /api/prices
+  h3 Parameters
+  ul
+    li item - The items market name (market_hash_name)
+    li appID - The items appID
+  h3 Example
+  a(href='https://open-market.io/api/prices?item=Mann%20Co.%20Supply%20Crate%20Key&appID=440')
+    pre(style='white-space: pre-wrap;') https://open-market.io/api/prices?item=Mann%20Co.%20Supply%20Crate%20Key&appID=440
+  hr(style='margin-top:30px;')
+  h2 Item search
+  p Search through the items available on the Steam market.
+  h3 Endpoint
+  pre /api/search
+  h3 Parameters
+  ul
+    li name - Search query
+    li appID (Optional) - Limit the search scope to this app id
+    li limit (Optional) - Limit the amount of results returned. Defaults to 10
+  h3 Example
+  a(href='https://open-market.io/api/search?name=case&appID=730&limit=5')
+    pre(style='white-space: pre-wrap;') https://open-market.io/api/search?name=case&appID=730&limit=5
+

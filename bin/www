@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+
+require('newrelic');
+
+var debug   = require('debug')('theta-api'),
+    cluster = require('cluster'),
+    app     = require('../app');
+
+app.set('port', process.env.PORT || 3000);
+
+if (cluster.isMaster) {
+
+  /**
+   * Amount of CPU's on the machine
+   * @type {[type]}
+   */
+  var cpuCount = require('os').cpus().length;
+
+  // Create worker for each cpu
+  for (var i = 0; i < cpuCount; i += 1)
+    cluster.fork();
+
+  cluster.on('exit', function (worker) {
+
+    debug('Worker %s has died', worker.id);
+    cluster.fork();
+
+  });
+
+}
+
+else {
+
+  var server = app.listen(app.get('port'), function() {
+
+    debug('Express server listening on port ' + server.address().port);
+
+  });
+
+}
