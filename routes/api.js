@@ -10,7 +10,7 @@ var config  = require('../config'),
 var models = require('../models'),
     redis  = require('redis').createClient(config.redisPort, config.redisHost, { auth_pass: config.redisPass || null  });
 
-var oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
+const ONE_DAY_AGO = Date.now() - (24 * 60 * 60 * 1000);
 
 /**
  * GET /api/prices
@@ -46,7 +46,7 @@ router.get('/prices', function (req, res, next) {
 
     }).filter(function (pricePoint) {
 
-      return (parseInt(pricePoint.time, 10) > oneDayAgo);
+      return (parseInt(pricePoint.time, 10) > ONE_DAY_AGO);
 
     });
 
@@ -86,6 +86,9 @@ router.get('/search', function (req, res, next) {
 
   else if (req.param('appID') && isNaN(req.param('appID')))
     return res.status(400).json({ error: 'Invalid appID' });
+
+  else if (req.param('limit') && isNaN(req.param('limit')))
+    return res.status(400).json({ error: 'Invalid limit parameter' });
 
   models.items.find(findQuery, { score: { $meta: 'textScore' }, _id: 0 })
               .limit(req.param('limit') || 10)
