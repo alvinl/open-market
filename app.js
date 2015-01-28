@@ -4,6 +4,7 @@
  */
 
 var cookieParser = require('cookie-parser'),
+    middleware   = require('./middleware'),
     bodyParser   = require('body-parser'),
     config       = require('./config'),
     express      = require('express'),
@@ -30,6 +31,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(middleware.cors);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
