@@ -10,8 +10,6 @@ var config  = require('../config'),
 var models = require('../models'),
     redis  = require('redis').createClient(config.redisPort, config.redisHost, { auth_pass: config.redisPass || null  });
 
-const ONE_DAY_AGO = Date.now() - (24 * 60 * 60 * 1000);
-
 /**
  * GET /api/prices
  *
@@ -20,6 +18,8 @@ const ONE_DAY_AGO = Date.now() - (24 * 60 * 60 * 1000);
  *   - `appID` Items appID
  */
 router.get('/prices', function (req, res, next) {
+
+  var ONE_DAY_AGO = Date.now() - (24 * 60 * 60 * 1000);
 
   var itemName = req.param('item'),
       appID    = req.param('appID');
